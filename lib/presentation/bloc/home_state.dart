@@ -13,3 +13,10 @@ class SuccessGetInitialSong extends HomeState {
   final Result result;
   SuccessGetInitialSong(this.result);
 }
+
+class LoadingSearch extends HomeState {}
+
+class SuccessSearch extends HomeState {
+  final Result result;
+  SuccessSearch(this.result);
+}

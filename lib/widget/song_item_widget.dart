@@ -9,7 +9,8 @@ class SongItemWidget extends StatelessWidget {
       required this.title,
       required this.artist,
       required this.isPlaying,
-      required this.onTapped})
+      required this.onTapped,
+      required this.isSelected})
       : super(key: key);
 
   final String imageUrl;
@@ -17,6 +18,7 @@ class SongItemWidget extends StatelessWidget {
   final String artist;
   final bool isPlaying;
   final OnSongTapped onTapped;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class SongItemWidget extends StatelessWidget {
       onTap: () => onTapped(),
       child: Container(
         padding: const EdgeInsets.all(20.0),
-        color: isPlaying ? Colors.blue[50] : Colors.white,
+        color: isSelected ? Colors.blue[50] : Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +48,7 @@ class SongItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title),
+                  Text(title, maxLines: 3),
                   const SizedBox(height: 12),
                   Text(artist)
                 ],
