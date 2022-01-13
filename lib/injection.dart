@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_player_flutter/data/repositories/home_repository_impl.dart';
 import 'package:music_player_flutter/presentation/bloc/home_bloc.dart';
 
 class Injection {
@@ -6,6 +7,8 @@ class Injection {
   static final Injection _instance = Injection._privateConstructor();
   static Injection get instance => _instance;
 
-  List<BlocProvider> initBloc() =>
-      [BlocProvider<HomeBloc>(create: (context) => HomeBloc())];
+  List<BlocProvider> initBloc() => [
+        BlocProvider<HomeBloc>(
+            create: (context) => HomeBloc(HomeRepositoryImpl.getInstance()))
+      ];
 }

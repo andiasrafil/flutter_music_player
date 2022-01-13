@@ -4,7 +4,6 @@ import 'package:music_player_flutter/injection.dart';
 import 'package:music_player_flutter/presentation/page/home.dart';
 
 void main() {
-  //runApp(const MyApp());
   runApp(MultiBlocProvider(
       providers: Injection.instance.initBloc(), child: const MyApp()));
 }

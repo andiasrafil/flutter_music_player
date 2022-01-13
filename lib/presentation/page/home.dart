@@ -30,7 +30,7 @@ class _HomePageState
 
   @override
   void initState() {
-    pushEvent(GetInitialSongsEvent());
+    initEvent(GetInitialSongsEvent());
     _player = AudioPlayer();
     cache = AudioCache(fixedPlayer: _player);
 
@@ -63,88 +63,93 @@ class _HomePageState
 
   @override
   Widget body(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          blocListener(
-              listener: (BuildContext context, state) {
-                if (state is LoadingInitialSong) {
-                } else if (state is SuccessGetInitialSong) {
-                  setState(() {
-                    songs = state.result.results!;
-                  });
-                } else if (state is SuccessSearch) {
-                  setState(() {
-                    songs = state.result.results!;
-                  });
+    return createBloc(
+      child: Material(
+        child: Stack(
+          children: [
+            blocListener(
+                listener: (BuildContext context, state) {
+                  if (state is LoadingInitialSong) {
+                  } else if (state is SuccessGetInitialSong) {
+                    setState(() {
+                      songs = state.result.results!;
+                    });
+                  } else if (state is SuccessSearch) {
+                    setState(() {
+                      songs = state.result.results!;
+                    });
+                  }
+                },
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        onEditingComplete: () {
+                          if (searchTerms.isNotEmpty) {
+                            closeKeyboard();
+                            pushEvent(SearchSongsEvent(terms: searchTerms));
+                          }
+                        },
+                        onChanged: (value) =>
+                            setState(() => searchTerms = value),
+                        decoration: const InputDecoration(
+                            labelText: "Search song",
+                            border: OutlineInputBorder()),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          itemCount: songs.length,
+                          itemBuilder: (BuildContext context, position) {
+                            final data = songs[position];
+                            return SongItemWidget(
+                                imageUrl: data.artworkUrl!,
+                                title: data.trackName!,
+                                artist: data.artistName!,
+                                isPlaying: (songPlayed == data.artistId!) &&
+                                    (playerState == PlayerState.PLAYING),
+                                onTapped: () {
+                                  if (songPlayed != data.artistId) {
+                                    play(data.trackUrl!, data.artistId!,
+                                        data.trackName!, data.artistName!);
+                                  } else if (playerState ==
+                                      PlayerState.COMPLETED) {
+                                    play(data.trackUrl!, data.artistId!,
+                                        data.trackName!, data.artistName!);
+                                  } else if (playerState ==
+                                      PlayerState.PAUSED) {
+                                    resume();
+                                  } else if (playerState ==
+                                      PlayerState.PLAYING) {
+                                    pause();
+                                  }
+                                },
+                                isSelected: songPlayed == data.artistId!);
+                          }),
+                    ),
+                  ],
+                )),
+            PlayerBottomSheet(
+              songName: songName,
+              artistName: artistName,
+              isShowing: songPlayed != 0,
+              isPlaying: playerState == PlayerState.PLAYING,
+              onButtonPressed: () {
+                if (playerState == PlayerState.PLAYING) {
+                  pause();
+                } else {
+                  resume();
                 }
               },
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onEditingComplete: () {
-                        if (searchTerms.isNotEmpty) {
-                          closeKeyboard();
-                          pushEvent(SearchSongsEvent(terms: searchTerms));
-                        }
-                      },
-                      onChanged: (value) => setState(() => searchTerms = value),
-                      decoration: const InputDecoration(
-                          labelText: "Search song",
-                          border: OutlineInputBorder()),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        // shrinkWrap: true,
-                        itemCount: songs.length,
-                        itemBuilder: (BuildContext context, position) {
-                          final data = songs[position];
-                          return SongItemWidget(
-                              imageUrl: data.artworkUrl!,
-                              title: data.trackName!,
-                              artist: data.artistName!,
-                              isPlaying: (songPlayed == data.artistId!) &&
-                                  (playerState == PlayerState.PLAYING),
-                              onTapped: () {
-                                if (songPlayed != data.artistId) {
-                                  play(data.trackUrl!, data.artistId!,
-                                      data.trackName!, data.artistName!);
-                                } else if (playerState ==
-                                    PlayerState.COMPLETED) {
-                                  play(data.trackUrl!, data.artistId!,
-                                      data.trackName!, data.artistName!);
-                                } else if (playerState == PlayerState.PAUSED) {
-                                  resume();
-                                } else if (playerState == PlayerState.PLAYING) {
-                                  pause();
-                                }
-                              },
-                              isSelected: songPlayed == data.artistId!);
-                        }),
-                  ),
-                ],
-              )),
-          PlayerBottomSheet(
-            songName: songName,
-            artistName: artistName,
-            isShowing: songPlayed != 0,
-            isPlaying: playerState == PlayerState.PLAYING,
-            onButtonPressed: () {
-              if (playerState == PlayerState.PLAYING) {
-                pause();
-              } else {
-                resume();
-              }
-            },
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
