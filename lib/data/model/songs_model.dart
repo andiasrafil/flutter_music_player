@@ -21,19 +21,22 @@ class SongModel extends Song {
   final String? artworkUrl;
   final String? trackName;
   final String? trackUrl;
+  final String? albumName;
 
   const SongModel(
       {this.artistId,
       this.artistName,
       this.artworkUrl,
       this.trackName,
-      this.trackUrl})
+      this.trackUrl,
+      this.albumName})
       : super(
             artistId: artistId,
             artistName: artistName,
             artworkUrl: artworkUrl,
             trackName: trackName,
-            trackUrl: trackUrl);
+            trackUrl: trackUrl,
+            albumName: albumName);
 
   factory SongModel.fromJson(Map<String, dynamic> json) {
     return SongModel(
@@ -41,6 +44,7 @@ class SongModel extends Song {
         artistName: json["artistName"],
         artworkUrl: json["artworkUrl100"],
         trackName: json["trackName"],
-        trackUrl: json["previewUrl"]);
+        trackUrl: json["previewUrl"],
+        albumName: json["collectionName"]);
   }
 }

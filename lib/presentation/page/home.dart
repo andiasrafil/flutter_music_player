@@ -89,9 +89,11 @@ class _HomePageState
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         onEditingComplete: () {
+                          closeKeyboard();
                           if (searchTerms.isNotEmpty) {
-                            closeKeyboard();
                             pushEvent(SearchSongsEvent(terms: searchTerms));
+                          } else {
+                            pushEvent(GetInitialSongsEvent());
                           }
                         },
                         onChanged: (value) =>
@@ -112,6 +114,7 @@ class _HomePageState
                                 imageUrl: data.artworkUrl!,
                                 title: data.trackName!,
                                 artist: data.artistName!,
+                                albumName: data.albumName!,
                                 isPlaying: (songPlayed == data.artistId!) &&
                                     (playerState == PlayerState.PLAYING),
                                 onTapped: () {

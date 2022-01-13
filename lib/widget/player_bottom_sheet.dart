@@ -51,13 +51,22 @@ class PlayerBottomSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: IconButton(
-                        onPressed: () => onButtonPressed(),
-                        icon: Icon(
-                          isPlaying ? Icons.pause_circle : Icons.play_circle,
-                          size: 50,
-                          color: Colors.white,
-                        )),
+                    child: TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      child: Icon(
+                        isPlaying ? Icons.pause_circle : Icons.play_circle,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => onButtonPressed(),
+                    ),
+                    // child: IconButton(
+                    //     onPressed: () => onButtonPressed(),
+                    //     icon: Icon(
+                    //       isPlaying ? Icons.pause_circle : Icons.play_circle,
+                    //       size: 50,
+                    //       color: Colors.white,
+                    //     )),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -69,7 +78,7 @@ class PlayerBottomSheet extends StatelessWidget {
                       children: [
                         Text(songName,
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
+                                color: Colors.white, fontSize: 16),
                             maxLines: 3),
                         Text(
                           artistName,

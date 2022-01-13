@@ -7,7 +7,7 @@ class Result extends Equatable {
   const Result({this.resultCount, this.results});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [resultCount, results];
 }
 
 class Song extends Equatable {
@@ -16,13 +16,17 @@ class Song extends Equatable {
   final String? artworkUrl;
   final String? trackName;
   final String? trackUrl;
+  final String? albumName;
 
-  const Song(
-      {this.artistId,
-      this.artistName,
-      this.artworkUrl,
-      this.trackName,
-      this.trackUrl});
+  const Song({
+    this.artistId,
+    this.artistName,
+    this.artworkUrl,
+    this.trackName,
+    this.trackUrl,
+    this.albumName,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props =>
+      [artistId, artistId, artworkUrl, trackName, trackUrl, albumName];
 }

@@ -8,6 +8,7 @@ class SongItemWidget extends StatelessWidget {
       required this.imageUrl,
       required this.title,
       required this.artist,
+      required this.albumName,
       required this.isPlaying,
       required this.onTapped,
       required this.isSelected})
@@ -16,6 +17,7 @@ class SongItemWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String artist;
+  final String albumName;
   final bool isPlaying;
   final OnSongTapped onTapped;
   final bool isSelected;
@@ -48,9 +50,12 @@ class SongItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, maxLines: 3),
-                  const SizedBox(height: 12),
-                  Text(artist)
+                  Text(title,
+                      maxLines: 3, style: const TextStyle(fontSize: 14)),
+                  const SizedBox(height: 8),
+                  Text(artist, style: const TextStyle(fontSize: 12)),
+                  const SizedBox(height: 8),
+                  Text(albumName, style: const TextStyle(fontSize: 10))
                 ],
               ),
             ),
